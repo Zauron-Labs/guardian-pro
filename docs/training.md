@@ -4,6 +4,8 @@
 
 Guardian Pro is designed for minimal training requirements, with most radiologists familiar with PACS-based workflows. We provide comprehensive training resources to ensure smooth adoption and optimal utilization.
 
+To get acquainted with the system, [click here to see a sandbox version of the software](http://20.65.224.246/expo).
+
 ### Available Resources
 
 - **On-Demand Video Tutorials**: Step-by-step guidance with sample cases and workflows
