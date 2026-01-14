@@ -2,7 +2,7 @@
 
 ## Zauron Compliance Guarantee
 
-Guardian Pro offers an unprecedented **Zauron Compliance Guarantee** (add-on required): If your radiologists are non-compliant with peer review requirements, our team of expert radiologists will step in to ensure your organization achieves 100% compliance. Even though we make achieving compliance with your own radiologists, practice leaders typically want to avoid the prospect of losing their accreditation or being on probation. 
+Guardian Pro offers an unprecedented **Zauron Compliance Guarantee** (add-on required): If your radiologists are non-compliant with peer review requirements, our team of expert radiologists will step in to ensure your organization achieves 100% compliance. Even though we make it easy to achieve compliance with your own radiologists, practice leaders typically want to avoid the prospect of losing their accreditation or being on probation. 
 
 ### How It Works
 1. **Automated Monitoring**: Guardian Pro continuously monitors your peer review completion rates

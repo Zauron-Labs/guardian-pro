@@ -1,0 +1,48 @@
+root: ./
+
+structure:
+  readme: docs/introduction.md
+  summary: SUMMARY.md
+
+redirects: {}
+
+title: "Guardian Pro Documentation"
+
+description: "AI-Enriched Peer Review Platform for Radiology - Complete documentation for installation, API integration, and compliance management"
+
+author: "Zauron Labs"
+
+language: en
+
+gitbook: ">=3.0.0"
+
+variables:
+  version: "1.0"
+  product: "Guardian Pro"
+
+plugins:
+  - advanced-emoji
+  - expandable-chapters
+  - github
+  - github-buttons
+  - edit-link
+  - prism
+  - todo
+  - include-codeblock
+  - anchors
+  - copy-code-button
+
+pluginsConfig:
+  github:
+    url: https://github.com/zauronlabs/guardian-pro
+  github-buttons:
+    repo: zauronlabs/guardian-pro
+    types:
+      - watch
+      - star
+      - fork
+      - follow
+    size: small
+  edit-link:
+    base: https://github.com/zauronlabs/guardian-pro/edit/main
+    label: "Edit This Page"
