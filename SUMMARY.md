@@ -29,6 +29,12 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
 
 ## Support & Resources
 
+- [Training & Onboarding](docs/training.md)
+  - Training resources and materials
+  - 3-week onboarding timeline
+  - Quality champion setup
+  - User training guidelines
+
 - **Website**: [https://zauronlabs.com/peer-review/](https://zauronlabs.com/peer-review/)
 - **Sales**: Contact your Zauron representative at contact@zauronlabs.com
 - **Support**: 24/7 monitoring and technical assistance available

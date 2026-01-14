@@ -1,1 +1,4 @@
 *.aids
+
+# cursor rules
+.cursorrules
