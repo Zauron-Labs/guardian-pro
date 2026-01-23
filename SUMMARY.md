@@ -10,10 +10,6 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
   - Target audience and benefits
 
 - [Installation Guide](docs/installation.md)
-  - Prerequisites and requirements
-  - On-premises deployment
-  - Cloud deployment options
-  - Post-installation verification
 
 ## Core Features
 
