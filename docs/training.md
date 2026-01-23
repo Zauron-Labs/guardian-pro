@@ -13,6 +13,24 @@ To watch a training video, [click here to see a video tutorial](https://www.yout
 - **Custom Video Creation**: If you have specific questions not covered in our existing videos, we'll create custom content for your needs
 - **1-on-1 Sessions**: Personalized training through screenshare sessions or virtual calls with our expert team
 
+## User Roles & Permissions
+
+Guardian Pro supports multiple user roles with specific permissions and responsibilities. The following matrix outlines the capabilities for each role:
+
+| Role | Description | Assigned Cases | Assigned Interesting Cases | Receives High Impact Errors | Receives Compliance Records | Access Dashboard |
+|------|-------------|----------------|----------------------------|-----------------------------|-----------------------------|------------------|
+| **Trainee**<br/>(Student/Resident/Fellow) | Medical trainees learning radiology through case review and educational content | Optional | Yes | No | No | Yes |
+| **Radiologist** | Licensed radiologists performing peer review and quality assurance | Yes | Yes | No | No | Yes |
+| **Rad-Champion** | Senior radiologist responsible for quality assurance and critical case handling | Yes | Yes | Yes | No | Yes |
+| **Admin** | Administrative user managing compliance reporting and system oversight | No | No | No | Yes | Yes |
+
+### Role Responsibilities
+
+- **Trainees** receive educational cases and optional peer review assignments to build experience
+- **Radiologists** perform standard peer review workflows and receive educational content
+- **Rad-Champions** handle critical quality issues and oversee the peer review process
+- **Admins** monitor compliance metrics and generate required documentation reports
+
 ## Training Timeline
 
 Our structured 3-week onboarding process ensures you get up and running quickly while maintaining quality and compliance:
