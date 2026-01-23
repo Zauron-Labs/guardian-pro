@@ -4,9 +4,8 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
 
 ## Getting Started
 
-- [Introduction](docs/introduction.md)
-
 - [Installation Guide](docs/installation.md)
+- [Introduction](docs/introduction.md)
 
 ## Core Features
 
