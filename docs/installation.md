@@ -13,9 +13,11 @@ Before installing Guardian Pro, ensure you have:
 
 ## Installation Checklist
 
-Download our [Installation Preparation Spreadsheet](https://docs.zauronlabs.com/guardian-pro/installation-checklist.xlsx) to track your setup progress. This spreadsheet includes placeholders for all required configuration details.
+Download our [Installation Preparation Checklist CSV](installation-checklist.csv) to track your Guardian Pro setup progress. This CSV file includes placeholders for all required configuration details and can be imported into Excel, Google Sheets, or any spreadsheet application.
 
-### Sample Configuration Spreadsheet
+Alternatively, copy the table below into your preferred spreadsheet application.
+
+### Installation Checklist Template
 
 | Component | Username | Password | Endpoint/Host | Port | Complete (Yes/No) | Notes |
 |-----------|----------|----------|---------------|------|-------------------|-------|
@@ -25,12 +27,25 @@ Download our [Installation Preparation Spreadsheet](https://docs.zauronlabs.com/
 | Guardian AI Dashboard | N/A | N/A | [VM Public IP] | 8090 | No | Web dashboard access |
 | Guardian Viewer | N/A | N/A | [VM Public IP] | 80/443 | No | HTTPS access required |
 
+### CSV Format (Copy & Paste)
+
+For easy import into spreadsheet applications, copy this CSV data:
+
+```
+Component,Username,Password,Endpoint/Host,Port,Complete (Yes/No),Notes
+VM SSH Access,zauron,N/A,[VM Public IP],22,No,SSH key required
+PostgreSQL Database,[db_username],[db_password],[db_host],5432,No,Version 13+ required
+Guardian PACS Listener,N/A,N/A,[VM Public IP],4000,No,DICOM listener port
+Guardian AI Dashboard,N/A,N/A,[VM Public IP],8090,No,Web dashboard access
+Guardian Viewer,N/A,N/A,[VM Public IP],80/443,No,HTTPS access required
+```
+
 **Instructions:**
-1. Download the spreadsheet template from the link above
-2. Fill in the bracketed placeholder values with your actual configuration
-3. Mark "Complete" as Yes/No as you provision each component
-4. Use the Notes column for any additional configuration details
-5. Send the completed spreadsheet to your Zauron representative before installation
+1. Copy the table above into Excel, Google Sheets, or your preferred spreadsheet application
+2. Replace bracketed placeholders (e.g., `[VM Public IP]`) with your actual configuration values
+3. Mark "Complete" column as Yes/No as you provision each component
+4. Use the Notes column for any additional configuration details or issues
+5. Send the completed checklist to your Zauron representative before installation
 
 ## Deployment Options
 

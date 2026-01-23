@@ -1,0 +1,6 @@
+Component,Username,Password,Endpoint/Host,Port,Complete (Yes/No),Notes
+VM SSH Access,zauron,N/A,[VM Public IP],22,No,SSH key required
+PostgreSQL Database,[db_username],[db_password],[db_host],5432,No,Version 13+ required
+Guardian PACS Listener,N/A,N/A,[VM Public IP],4000,No,DICOM listener port
+Guardian AI Dashboard,N/A,N/A,[VM Public IP],8090,No,Web dashboard access
+Guardian Viewer,N/A,N/A,[VM Public IP],80/443,No,HTTPS access required
