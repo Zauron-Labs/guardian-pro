@@ -4,10 +4,33 @@
 
 Before installing Guardian Pro, ensure you have:
 
+- **Cloud Infrastructure**: AWS, Azure, or Google Cloud account with provisioning permissions
 - **Network Access**: Ability to whitelist external IPs and configure firewall rules
 - **PACS Integration**: Access to your Picture Archiving and Communication System
 - **Radiologist List**: Current roster of radiologists for enrollment
-- **Technical Support**: IT administrator familiar with DICOM networking and VPN configuration
+- **Technical Support**: IT administrator familiar with cloud infrastructure, networking, and database administration
+- **PostgreSQL Database**: External or cloud-hosted PostgreSQL instance
+
+## Installation Checklist
+
+Download our [Installation Preparation Spreadsheet](https://docs.zauronlabs.com/guardian-pro/installation-checklist.xlsx) to track your setup progress. This spreadsheet includes placeholders for all required configuration details.
+
+### Sample Configuration Spreadsheet
+
+| Component | Username | Password | Endpoint/Host | Port | Complete (Yes/No) | Notes |
+|-----------|----------|----------|---------------|------|-------------------|-------|
+| VM SSH Access | zauron | N/A | [VM Public IP] | 22 | No | SSH key required |
+| PostgreSQL Database | [db_username] | [db_password] | [db_host] | 5432 | No | Version 13+ required |
+| Guardian PACS Listener | N/A | N/A | [VM Public IP] | 4000 | No | DICOM listener port |
+| Guardian AI Dashboard | N/A | N/A | [VM Public IP] | 8090 | No | Web dashboard access |
+| Guardian Viewer | N/A | N/A | [VM Public IP] | 80/443 | No | HTTPS access required |
+
+**Instructions:**
+1. Download the spreadsheet template from the link above
+2. Fill in the bracketed placeholder values with your actual configuration
+3. Mark "Complete" as Yes/No as you provision each component
+4. Use the Notes column for any additional configuration details
+5. Send the completed spreadsheet to your Zauron representative before installation
 
 ## Deployment Options
 
@@ -19,16 +42,26 @@ Guardian Pro offers two deployment models to suit different organizational needs
 
 #### Cloud Space Provisioning
 1. **Choose Cloud Provider**: AWS, Azure, or Google Cloud Platform
-2. **Instance Specifications**:
-   - Minimum: 4 vCPUs, 16GB RAM, 100GB SSD storage
-   - Recommended: 8 vCPUs, 32GB RAM, 500GB SSD storage
-3. **Network Configuration**:
-   - Private subnet with internet access
-   - Security groups allowing HTTPS (443) and DICOM (104) traffic
-   - VPN gateway for secure remote access
+2. **VM Specifications**:
+   - **Required**: Ubuntu VM with 12 vCPU cores and 32GB RAM
+   - **Storage**: Minimum 200GB SSD storage
+   - **SSH Access**: SSH key provided to username `zauron` with sudo privileges
+
+#### Database Requirements
+- **PostgreSQL Database**: Version 13 or later
+- **Connection Details**: Username and password for database access
+- **Network Access**: Database must be accessible from the Guardian Pro VM
+
+#### Network and Security Requirements
+- **SSH Key**: Provide SSH private key for VM access
+- **Firewall Ports**: Open the following incoming ports:
+  - `22`: SSH access
+  - `80/443`: Guardian Viewer (HTTP/HTTPS)
+  - `4000`: Guardian PACS listener
+  - `8090`: Guardian AI Governance dashboard
 
 #### System Requirements
-- **Operating System**: Ubuntu 20.04 LTS or CentOS 7+
+- **Operating System**: Ubuntu 20.04 LTS or later
 - **Docker**: Version 20.10 or later
 - **Docker Compose**: Version 2.0 or later
 - **SSL Certificate**: Valid certificate for HTTPS endpoints
@@ -36,23 +69,58 @@ Guardian Pro offers two deployment models to suit different organizational needs
 ### Installation Steps
 
 #### 1. Provision Cloud Infrastructure
+
+**VM Specifications:**
+- Ubuntu 20.04 LTS or later
+- 12 vCPU cores, 32GB RAM
+- 200GB SSD storage minimum
+- SSH key access for user `zauron` with sudo privileges
+
 ```bash
-# Example AWS EC2 instance creation
+# Example AWS EC2 instance creation (t3.2xlarge = 8 vCPU, 32GB RAM - upgrade to c5.4xlarge for 16 vCPU if needed)
 aws ec2 run-instances \
   --image-id ami-0abcdef1234567890 \
   --count 1 \
-  --instance-type t3.xlarge \
-  --key-name your-key-pair \
+  --instance-type c5.4xlarge \
+  --key-name zauron-ssh-key \
   --security-group-ids sg-12345678 \
-  --subnet-id subnet-12345678
+  --subnet-id subnet-12345678 \
+  --user-data '#!/bin/bash
+    useradd -m -s /bin/bash zauron
+    usermod -aG sudo zauron
+    mkdir -p /home/zauron/.ssh
+    echo "ssh-rsa YOUR_PUBLIC_KEY_HERE" >> /home/zauron/.ssh/authorized_keys
+    chown -R zauron:zauron /home/zauron/.ssh
+    chmod 600 /home/zauron/.ssh/authorized_keys
+  '
 ```
 
-#### 2. Configure PACS Integration
+**Required Ports to Open:**
+- `22`: SSH (for zauron user)
+- `80/443`: Guardian Viewer (HTTP/HTTPS)
+- `4000`: Guardian PACS listener
+- `8090`: Guardian AI Governance dashboard
+
+#### 2. Configure Database Access
+
+**PostgreSQL Setup:**
+1. Ensure PostgreSQL 13+ is running and accessible from the VM
+2. Create a database user with appropriate permissions
+3. Note the connection details for the installation checklist
+
+**Required Information:**
+- Database host/IP address
+- Database port (default: 5432)
+- Database name
+- Username with read/write permissions
+- Password for the database user
+
+#### 4. Configure PACS Integration
 
 **Whitelist Zauron DICOM Node:**
-- IP Address: [Provided by Zauron during setup]
+- IP Address: [VM Public IP Address]
 - AE Title: Zauron_Query
-- Port: 104 (standard DICOM port)
+- Port: 4000 (Guardian PACS listener)
 
 **Configuration Steps:**
 1. Access your PACS administration console
@@ -60,14 +128,14 @@ aws ec2 run-instances \
 3. Add new DICOM node with provided credentials
 4. Test connectivity using DICOM echo
 
-#### 3. Configure Reporting System Integration
+#### 5. Configure Reporting System Integration
 
 **Whitelist Zauron Reader Node:**
-- IP Address: [Provided by Zauron during setup]
+- IP Address: [VM Public IP Address]
 - Integration Method: HL7 or direct API (depending on your RIS)
 - Authentication: Mutual TLS or API key
 
-#### 4. Install Guardian Pro Software
+#### 6. Install Guardian Pro Software
 
 ```bash
 # Download installation package
@@ -78,7 +146,7 @@ chmod +x installer.sh
 sudo ./installer.sh --config on-prem
 ```
 
-#### 5. Configure Radiologist Enrollment
+#### 7. Configure Radiologist Enrollment
 
 Prepare a CSV file with radiologist information:
 ```csv
