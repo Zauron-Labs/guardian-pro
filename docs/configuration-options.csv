@@ -1,0 +1,13 @@
+Configuration,Default,Additional Details,Customer Selection
+Minimum number of cases seen by rads per week,5,Minimum weekly case volume threshold for peer review eligibility,
+Maximum number of cases seen by rads per week,10,Upper limit on weekly peer review assignments per radiologist,
+Number of interesting cases seen by rads per week,5,AI-flagged cases with educational or clinical significance,
+RadPeer threshold for notifying the quality champion,3b,Score at which quality leadership is automatically alerted,
+Number of cases (in last 3 months) to be qualified to peer review a case,10,Minimum recent case volume required to serve as a peer reviewer,
+Minimum number of random exams per week,2,Baseline random sampling for quality assurance,
+Quality Champion,,Designated individual responsible for quality oversight and discrepancy adjudication,
+Target Positive Predictive Value for Discrepancy Inclusion,0.5,AI threshold for flagging potential discrepancies,
+Residents and Fellows Receive Emails,Yes,Whether trainees receive email notifications,
+Residents and Fellows Participate in Random QC,Yes,Whether trainees are assigned random quality control sampling,
+AI Model Inclusion Policy,Zauron Approval,Policy governing which AI models may be integrated,
+AI Model Update Policy,Zauron Approval,Policy governing AI model version updates,
