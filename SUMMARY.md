@@ -17,10 +17,7 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
 ## Support & Resources
 
 - [Training & Onboarding](docs/training.md)
-
-- **Website**: [https://zauronlabs.com/peer-review/](https://zauronlabs.com/peer-review/)
-- **Sales**: Contact your Zauron representative at contact@zauronlabs.com
-- **Support**: 24/7 monitoring and technical assistance available
+- [Contact Zauron](docs/contact.md)
 
 ---
 
