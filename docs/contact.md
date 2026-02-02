@@ -10,10 +10,8 @@ Contact your Zauron representative for pricing, licensing, and deployment option
 
 ## Support
 
-Our team provides 24/7 monitoring and technical assistance for all Guardian Pro deployments.
+Our team provides monitoring and technical assistance for all Guardian Pro deployments.
 
-- **Support Portal**: [https://support.zauron.com](https://support.zauron.com)
-- **Emergency Contact**: 1-800-ZAURON-HELP
 - **Email**: [support@zauronlabs.com](mailto:support@zauronlabs.com)
 
 ## Website
