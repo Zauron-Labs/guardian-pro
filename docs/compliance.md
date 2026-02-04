@@ -1,13 +1,13 @@
 # Compliance & Accreditation
 
-## Zauron Compliance Guarantee
+## Achieving Compliance with Guardian Pro
 
-Guardian Pro offers an unprecedented **Zauron Compliance Guarantee** (add-on required): If your radiologists are non-compliant with peer review requirements, our team of expert radiologists will step in to ensure your organization achieves 100% compliance. Even though we make it easy to achieve compliance with your own radiologists, practice leaders typically want to avoid the prospect of losing their accreditation or being on probation. 
+Guardian Pro helps your organization achieve and maintain peer review compliance. Our platform makes it easy to meet requirements with your own radiologists through automated workflows, intelligent case selection, and comprehensive tracking. For organizations that need additional support, our **Zauron Reader add-on** provides access to our team of expert radiologists who can perform peer reviews on your behalf, helping you achieve compliance even during staff shortages or high-volume periods.
 
 ### How It Works
 1. **Automated Monitoring**: Guardian Pro continuously monitors your peer review completion rates
 2. **Early Detection**: Identifies compliance gaps before they become critical issues
-3. **Expert Intervention**: Our certified radiologists perform the necessary reviews when needed.  If not needed (e.g. your radiologists are fully compliant), then your cost is 0.
+3. **Expert Support**: If you outsource peer review to Zauron radiologists, our certified team helps you achieve compliance when your internal resources are stretched
 4. **Full Documentation**: All compliance activities are thoroughly documented and reported
 
 ## Compliance Features
@@ -77,7 +77,7 @@ Guardian Pro helps your organization maintain compliance with:
 
 ## Zauron Reader Add-on
 
-When compliance cannot be achieved through your internal team, the Zauron Reader add-on provides:
+When you need additional support to achieve compliance, the Zauron Reader add-on allows you to outsource peer review to our expert radiologists:
 
 - **Expert Radiology Review**: Board-certified radiologists with extensive experience
 - **Rapid Deployment**: Reviews completed within 7 days

@@ -12,7 +12,7 @@ Guardian Pro is a comprehensive AI-powered platform designed to enhance peer rev
 - **Streamlined Process**: Reduces manual effort while ensuring comprehensive coverage
 
 ### Compliance & Accreditation
-- **Zauron Compliance Guarantee**: If your radiologists are non-compliant, our expert radiologists step in to ensure 100% compliance
+- **Compliance Support**: Guardian Pro helps you achieve compliance—if you outsource peer review to Zauron radiologists, our expert team can perform reviews on your behalf
 - **Monthly Documentation**: Receive detailed compliance reports in your inbox or access them on-demand through our web dashboard
 - **Regulatory Assurance**: Maintain accreditation standards with automated monitoring and reporting
 
@@ -43,5 +43,5 @@ Guardian Pro is designed for:
 
 - **Minimal Training Required**: Most radiologists are already familiar with PACS-based workflows
 - **Flexible Deployment**: Choose between on-premises or cloud-based solutions
-- **Proven Results**: Backed by our Zauron Compliance Guarantee
+- **Proven Results**: Comprehensive compliance support with optional expert radiologist services
 - **Future-Ready**: Designed to evolve with emerging AI technologies and regulatory requirements

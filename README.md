@@ -5,7 +5,7 @@
 
 ## AI-Enriched Peer Review Platform for Radiology
 
-Guardian Pro revolutionizes radiology quality assurance through intelligent case selection, automated workflows, and guaranteed compliance.
+Guardian Pro revolutionizes radiology quality assurance through intelligent case selection, automated workflows, and comprehensive compliance support.
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ Guardian Pro revolutionizes radiology quality assurance through intelligent case
 ## Key Features
 
 - 🔍 **AI-Powered Case Selection** - Intelligent identification of quality concerns
-- 🛡️ **Zauron Compliance Guarantee** - 100% compliance assurance with expert backup
+- 🛡️ **Compliance Support** - Expert radiologists available to help you achieve compliance
 - 📚 **Educational Resources** - Weekly AI-generated teaching files
 - 🤖 **Developer-Friendly API** - Seamless custom model integration
 
