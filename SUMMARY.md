@@ -11,7 +11,7 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
 ## Core Features
 
 - [Compliance & Accreditation](docs/compliance.md)
-
+- [Security](docs/security.md)
 - [API Reference](docs/api_reference.md)
 
 ## Support & Resources
