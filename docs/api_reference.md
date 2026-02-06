@@ -1,8 +1,15 @@
-# Guardian Model API Reference
+# API Reference
 
-**Version 1.0** | API specification for Guardian-compatible model containers.
+This document covers two distinct API systems within Guardian Pro:
+
+1. **Guardian Model API** - For integrating custom AI models with Guardian Pro
+2. **Guardian Pro PACS Integration API** - For connecting PACS systems to Guardian Pro
 
 ---
+
+# Guardian Model API
+
+**Version 1.0** | API specification for Guardian-compatible model containers.
 
 ## Overview
 
@@ -191,7 +198,64 @@ Returns container logs.
 
 ---
 
-## Testing
+# Guardian Pro PACS Integration API
+
+## Overview
+
+Guardian Pro integrates directly with your PACS system, allowing radiologists to flag cases for peer review in real-time through custom PACS buttons or workflows. When clicked, the button opens a web browser and navigates to the Guardian Pro interface.
+
+### Flag Case API Endpoints
+
+#### Deep Link — Create
+
+This endpoint creates a flagged case and redirects the user to the Guardian Pro interface.
+
+**Endpoint**
+
+Behind Traefik (TLS): `https://<GUARDIAN_DOMAIN>`
+
+```
+GET /flag-case?accession={accession}&user_name={user_name}
+```
+
+**Parameters**
+
+| Parameter | Type | Description | Required |
+|-----------|------|-------------|----------|
+| `accession` | string | Accession number of the study to flag | Yes |
+| `user_name` | string | Username or identifier of the radiologist flagging the case | Yes |
+
+**Example**
+
+```
+GET https://guardian.yourhospital.com/flag-case?accession=ACC123456&user_name=drsmith
+```
+
+**Response**
+
+The endpoint opens in a web browser and redirects the user to the Guardian Pro viewer where they can:
+- Review the flagged study
+- Add comments or notes
+- Submit the case for peer review
+
+**PACS Button Configuration**
+
+Configure your PACS to add a custom button with the following behavior:
+1. Extract the current study's accession number
+2. Extract the current user's username
+3. Open URL in default web browser: `https://<GUARDIAN_DOMAIN>/flag-case?accession={accession}&user_name={user_name}`
+
+**User Experience**
+
+When a radiologist clicks the button in their PACS application:
+1. Their default web browser opens (or a new tab if browser is already open)
+2. Browser navigates to the Guardian Pro interface with the study pre-loaded
+3. Radiologist can flag the case and add relevant notes
+4. Radiologist can return to their PACS workflow
+
+---
+
+## Guardian Model API Testing
 
 ```bash
 # Health check
@@ -207,4 +271,13 @@ curl http://localhost:8000/icd10-mapping
 
 # Logs
 curl http://localhost:8000/logging
+```
+
+---
+
+## Guardian Pro PACS Integration Testing
+
+```bash
+# Test flag case endpoint (replace with your domain and parameters)
+curl "https://guardian.yourhospital.com/flag-case?accession=ACC123456&user_name=drsmith"
 ```
