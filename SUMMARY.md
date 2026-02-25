@@ -16,6 +16,7 @@ This documentation provides comprehensive guidance for Guardian Pro, an AI-enric
 
 ## Support & Resources
 
+- [Frequently Asked Questions](docs/faq.md)
 - [Training & Onboarding](docs/training.md)
 - [Contact Zauron](docs/contact.md)
 
