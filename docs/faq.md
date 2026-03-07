@@ -1,12 +1,5 @@
 # Frequently Asked Questions
 
-## Hospital Executives
-
-*Coming soon.*
-
-## Radiology Directors
-
-*Coming soon.*
 
 ## Radiologists
 
