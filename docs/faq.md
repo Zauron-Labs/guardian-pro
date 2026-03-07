@@ -1,6 +1,5 @@
 # Frequently Asked Questions
 
-
 ## Radiologists
 
 ### The system assigned me an exam type I don't regularly interpret. What should I do?
