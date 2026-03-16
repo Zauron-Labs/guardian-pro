@@ -204,6 +204,8 @@ Returns container logs.
 
 Guardian Pro integrates directly with your PACS system, allowing radiologists to flag cases for peer review in real-time through custom PACS buttons or workflows. When clicked, the button opens a web browser and navigates to the Guardian Pro interface.
 
+## Button Manual Trigger
+
 ### Flag Case API Endpoints
 
 #### Deep Link — Create
@@ -252,6 +254,257 @@ When a radiologist clicks the button in their PACS application:
 2. Browser navigates to the Guardian Pro interface with the study pre-loaded
 3. Radiologist can flag the case and add relevant notes
 4. Radiologist can return to their PACS workflow
+
+---
+
+## Guardian Pro PACS Worklist Integration (Bidirectional Event Sync)
+
+### Overview
+
+Guardian Pro supports bidirectional PACS worklist synchronization using event-driven APIs.
+
+This integration allows PACS and Guardian Pro to exchange create/update/delete events for:
+
+- `peer_review` tasks
+- `self_review` tasks
+- `interesting_case` tasks
+
+Use this integration when both systems must stay in sync without duplicate manual task completion.
+
+---
+
+### Authentication
+
+All PACS worklist endpoints require a shared API key header:
+
+- Header: `X-Guardian-Api-Key`
+- Value: configured in Guardian Pro (`GUARDIAN_PACS_SYNC_API_KEY`)
+
+Requests without a valid key return `401 Unauthorized`.
+
+---
+
+### Event Types and Actions
+
+#### Event Types
+- `peer_review`
+- `self_review`
+- `interesting_case`
+
+#### Actions
+- `created`
+- `updated`
+- `deleted`
+
+---
+
+### Inbound Endpoints (PACS -> Guardian)
+
+Base path:
+
+`/api/v1/pacs`
+
+#### Create/Update/Delete Peer Review
+`POST /api/v1/pacs/events/peer-review`
+
+#### Create/Update/Delete Self Review
+`POST /api/v1/pacs/events/self-review`
+
+#### Create/Update/Delete Interesting Case
+`POST /api/v1/pacs/events/interesting-case`
+
+#### Queue Health
+`GET /api/v1/pacs/events/health`
+
+#### Manual Dispatch Trigger (optional operational endpoint)
+`POST /api/v1/pacs/events/dispatch`
+
+---
+
+### Outbound Delivery (Guardian -> PACS)
+
+Guardian Pro emits outbound events to PACS via an outbox dispatcher to:
+
+- `GUARDIAN_PACS_SYNC_OUTBOUND_URL`
+
+Outbound events use the same canonical event envelope (`event_type`, `action`, `study_uid`, etc.) and are retried automatically on transient failure.
+
+---
+
+### Event Payload Contract
+
+#### Request Body (Inbound)
+```json
+{
+  "source_system": "agfa_pacs",
+  "event_id": "evt-123456",
+  "occurred_at": "2026-03-09T12:34:56Z",
+  "event_type": "peer_review",
+  "action": "created",
+  "study_uid": "1.2.840.113619.2.55.3.123456",
+  "payload": {
+    "review_event_id": 12345,
+    "determination": 0,
+    "comments": "Optional comments"
+  }
+}
+```
+
+#### Response
+```json
+{
+  "accepted": true,
+  "duplicate": false,
+  "message": "Event processed",
+  "event_id": "evt-123456",
+  "study_uid": "1.2.840.113619.2.55.3.123456",
+  "event_type": "peer_review",
+  "action": "created"
+}
+```
+
+---
+
+### Idempotency and Retries
+
+- Idempotency key: `(source_system, event_id)`
+- Duplicate inbound events are acknowledged with `duplicate: true`
+- Outbound delivery uses retry/backoff with queued status tracking (`pending`, `retrying`, `failed`, `sent`)
+
+---
+
+### Configuration
+
+Set these in Guardian Pro environment:
+
+- `GUARDIAN_PACS_SYNC_ENABLED=true`
+- `GUARDIAN_PACS_SYNC_API_KEY=<shared-secret>`
+- `GUARDIAN_PACS_SYNC_OUTBOUND_URL=https://<pacs-endpoint>/...`
+- `GUARDIAN_PACS_SYNC_DISPATCH_INTERVAL_SECONDS`
+- `GUARDIAN_PACS_SYNC_DISPATCH_BATCH_SIZE`
+- `GUARDIAN_PACS_SYNC_REQUEST_TIMEOUT_SECONDS`
+- `GUARDIAN_PACS_SYNC_MAX_ATTEMPTS`
+- `GUARDIAN_PACS_SYNC_RETRY_BASE_SECONDS`
+- `GUARDIAN_PACS_SYNC_RETRY_MAX_SECONDS`
+- `GUARDIAN_PACS_SYNC_INTERESTING_POLL_SECONDS`
+
+---
+
+### Integration Steps
+
+1. Enable PACS sync config and deploy Guardian Pro.
+2. Configure PACS to call inbound Guardian endpoints for `peer_review`, `self_review`, and `interesting_case`.
+3. Configure Guardian outbound URL to PACS receiver.
+4. Use unique `event_id` values per source system for idempotency.
+5. Validate with test events for all actions (`created`, `updated`, `deleted`) and event types.
+6. Monitor `/api/v1/pacs/events/health` during go-live.
+
+---
+
+### Testing (curl examples)
+
+#### Inbound peer review example
+```bash
+curl -X POST "https://<GUARDIAN_DOMAIN>/api/v1/pacs/events/peer-review" \
+  -H "Content-Type: application/json" \
+  -H "X-Guardian-Api-Key: <shared-secret>" \
+  -d '{
+    "source_system":"agfa_pacs",
+    "event_id":"evt-pr-001",
+    "occurred_at":"2026-03-09T15:00:00Z",
+    "event_type":"peer_review",
+    "action":"created",
+    "study_uid":"1.2.840.113619.2.55.3.123456",
+    "payload":{"determination":0}
+  }'
+```
+
+#### Inbound self review example
+```bash
+curl -X POST "https://<GUARDIAN_DOMAIN>/api/v1/pacs/events/self-review" \
+  -H "Content-Type: application/json" \
+  -H "X-Guardian-Api-Key: <shared-secret>" \
+  -d '{
+    "source_system":"agfa_pacs",
+    "event_id":"evt-sr-001",
+    "occurred_at":"2026-03-09T15:01:00Z",
+    "event_type":"self_review",
+    "action":"updated",
+    "study_uid":"1.2.840.113619.2.55.3.123456",
+    "payload":{"determination":1}
+  }'
+```
+
+#### Inbound interesting case example
+```bash
+curl -X POST "https://<GUARDIAN_DOMAIN>/api/v1/pacs/events/interesting-case" \
+  -H "Content-Type: application/json" \
+  -H "X-Guardian-Api-Key: <shared-secret>" \
+  -d '{
+    "source_system":"agfa_pacs",
+    "event_id":"evt-ic-001",
+    "occurred_at":"2026-03-09T15:02:00Z",
+    "event_type":"interesting_case",
+    "action":"deleted",
+    "study_uid":"1.2.840.113619.2.55.3.123456",
+    "payload":{}
+  }'
+```
+
+#### Dispatch health
+```bash
+curl -H "X-Guardian-Api-Key: <shared-secret>" \
+  "https://<GUARDIAN_DOMAIN>/api/v1/pacs/events/health"
+```
+
+---
+
+### Vendor Implementation Checklist (AGFA/PACS)
+
+Use this checklist during implementation, validation, and go-live.
+
+#### 1) Connectivity and Security
+- [ ] Guardian endpoint is reachable from PACS network: `https://<GUARDIAN_DOMAIN>/api/v1/pacs/...`
+- [ ] PACS outbound TLS trust chain is validated for Guardian certificate
+- [ ] Shared API key is configured on both sides (`X-Guardian-Api-Key`)
+- [ ] API key rotation and secret ownership are documented
+
+#### 2) Event Contract Mapping
+- [ ] PACS emits `event_type` values only from: `peer_review`, `self_review`, `interesting_case`
+- [ ] PACS emits `action` values only from: `created`, `updated`, `deleted`
+- [ ] `study_uid` is populated with DICOM `StudyInstanceUID`
+- [ ] `occurred_at` is sent in UTC ISO-8601 format (for example: `2026-03-09T15:00:00Z`)
+- [ ] `source_system` is stable and environment-specific (for example: `agfa_pacs_prod`)
+
+#### 3) Idempotency and Ordering
+- [ ] `event_id` is globally unique per `source_system`
+- [ ] Retry from PACS preserves the same `event_id` (do not generate a new ID on retry)
+- [ ] Duplicate events are treated as success when Guardian responds with `duplicate: true`
+- [ ] Out-of-order updates/deletes are handled according to PACS business rules
+
+#### 4) Inbound Endpoint Coverage
+- [ ] `POST /api/v1/pacs/events/peer-review` tested for `created`, `updated`, `deleted`
+- [ ] `POST /api/v1/pacs/events/self-review` tested for `created`, `updated`, `deleted`
+- [ ] `POST /api/v1/pacs/events/interesting-case` tested for `created`, `updated`, `deleted`
+- [ ] Negative tests validated (`401`, malformed JSON, missing required fields)
+
+#### 5) Outbound Receiver Readiness (Guardian -> PACS)
+- [ ] PACS receiver URL is deployed and reachable at `GUARDIAN_PACS_SYNC_OUTBOUND_URL`
+- [ ] PACS receiver accepts the canonical Guardian event envelope
+- [ ] PACS receiver returns clear HTTP status codes (`2xx` success, `4xx/5xx` failure)
+- [ ] PACS receiver is idempotent for repeated delivery attempts
+
+#### 6) Operational Controls
+- [ ] `GET /api/v1/pacs/events/health` is included in PACS/ops monitoring
+- [ ] Manual dispatch endpoint is secured and documented: `POST /api/v1/pacs/events/dispatch`
+- [ ] Guardian retry and backoff settings are tuned for site SLAs
+- [ ] Alerting is configured for sustained queue failures (`failed`, high retry volume)
+
+#### 7) Go-Live Validation
+- [ ] End-to-end test completed in non-production with all event types and actions
+- [ ] Production dry run completed with a limited pilot group
+- [ ] Rollback procedure and contact matrix are documented
+- [ ] Post go-live monitoring window and ownership are confirmed
 
 ---
 
