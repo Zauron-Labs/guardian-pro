@@ -1,6 +1,6 @@
 # AI Models
 
-Guardian Pro leverages purpose-built AI models to identify quality-relevant findings across a range of imaging modalities and body parts.
+Guardian Pro is compatible with purpose-built AI models to identify quality-relevant findings across a range of imaging modalities and body parts.
 
 **Minimum Positive Predictive Value (PPV)** represents the lowest acceptable precision threshold validated on clinical data. Models at or above this threshold are deployed for case selection.
 

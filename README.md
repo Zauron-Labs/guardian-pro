@@ -30,7 +30,6 @@ Guardian Pro revolutionizes radiology quality assurance through intelligent case
 ## Support
 
 - **Website**: [https://zauronlabs.com/peer-review/](https://zauronlabs.com/peer-review/)
-- **Documentation**: [Full GitBook Documentation](https://docs.zauronlabs.com/guardian-pro)
 - **Sales**: contact@zauronlabs.com
 - **Support**: 24/7 monitoring and technical assistance
 

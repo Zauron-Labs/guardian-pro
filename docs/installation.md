@@ -81,6 +81,41 @@ Guardian Pro offers two deployment models to suit different organizational needs
 - **Docker Compose**: Version 2.0 or later
 - **SSL Certificate**: Valid certificate for HTTPS endpoints
 
+### Network Diagram
+
+The diagram below shows a typical on-premises installation, including external system access, the customer-controlled virtual network, model delivery from the Zauron container registry, and end-user access paths.
+
+```mermaid
+flowchart LR
+    PACS[PACS Server]
+    REPORT[Reporting Server<br/>PowerScribe / FHIR]
+    REGISTRY[Zauron Container Registry]
+    BROWSER[User Browser]
+    EMAIL[User Email]
+
+    subgraph VNET[On-Premises Virtual Network<br/>Cloud or Non-Cloud]
+        APP[Guardian Pro Virtual Machine]
+        DB[(PostgreSQL Database)]
+        subgraph MODELS[Modular AI Model Containers]
+            MODEL1[Supported AI Model A]
+            MODEL2[Supported AI Model B]
+            MODELN[Supported AI Model N]
+        end
+        DASH[Guardian Dashboard]
+        ASSIGN[Assignment Service]
+    end
+
+    PACS -->|DICOM / PACS access| APP
+    REPORT -->|PowerScribe / FHIR access| APP
+    APP --> DB
+    APP --> MODELS
+    REGISTRY -->|Pull model images| MODELS
+    BROWSER -->|Dashboard access| DASH
+    EMAIL -->|Assignment notifications| ASSIGN
+    DASH --> APP
+    ASSIGN --> APP
+```
+
 ### Installation Steps
 
 #### 1. Provision Cloud Infrastructure
