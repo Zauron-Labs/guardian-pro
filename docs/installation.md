@@ -83,17 +83,20 @@ Guardian Pro offers two deployment models to suit different organizational needs
 
 ### Network Diagram
 
-The diagram below shows a typical on-premises installation, including external system access, the customer-controlled virtual network, model delivery from the Zauron container registry, and end-user access paths.
+The diagram below shows a typical on-premises installation, including PACS and reporting system access, the customer-controlled virtual network, and AI model images pulled from the Azure Container Registry on the Zauron network.
 
 ```mermaid
 flowchart LR
     PACS[PACS Server]
     REPORT[Reporting Server<br/>PowerScribe / FHIR]
-    REGISTRY[Zauron Container Registry]
-    BROWSER[User Browser]
-    EMAIL[User Email]
+    
+    subgraph ZAURON[Zauron Network]
+        REGISTRY[Azure Container Registry]
+    end
 
     subgraph VNET[On-Premises Virtual Network<br/>Cloud or Non-Cloud]
+        BROWSER[User Browser]
+        EMAIL[User Email]
         APP[Guardian Pro Virtual Machine]
         DB[(PostgreSQL Database)]
         subgraph MODELS[Modular AI Model Containers]
